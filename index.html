@@ -1,1 +1,315 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>קפה דאדא | השארת פרטים</title>
 
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: "Heebo", sans-serif;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #f7f3ed, #ffffff);
+      color: #231f20;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 520px;
+      background: #ffffff;
+      border-radius: 28px;
+      padding: 28px;
+      box-shadow: 0 18px 45px rgba(0,0,0,0.10);
+    }
+
+    .logo {
+      display: block;
+      max-width: 150px;
+      margin: 0 auto 20px;
+    }
+
+    h1 {
+      margin: 0;
+      text-align: center;
+      font-size: 28px;
+      line-height: 1.2;
+      color: #2b1d14;
+    }
+
+    .subtitle {
+      text-align: center;
+      margin: 12px 0 26px;
+      color: #6b5b4f;
+      font-size: 16px;
+    }
+
+    .section-title {
+      font-weight: 800;
+      margin: 22px 0 10px;
+      color: #2b1d14;
+      font-size: 17px;
+    }
+
+    label {
+      display: block;
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 6px;
+      color: #3b3028;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      border: 1px solid #ddd2c7;
+      border-radius: 14px;
+      padding: 13px 14px;
+      font-size: 15px;
+      outline: none;
+      background: #fffdfb;
+      margin-bottom: 13px;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: #8b5e3c;
+      box-shadow: 0 0 0 3px rgba(139,94,60,0.12);
+    }
+
+    textarea {
+      min-height: 90px;
+      resize: vertical;
+    }
+
+    .checkboxes {
+      display: grid;
+      gap: 9px;
+      margin-bottom: 16px;
+    }
+
+    .check-row {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      background: #fbf7f2;
+      border: 1px solid #eadfd4;
+      border-radius: 14px;
+      padding: 10px 12px;
+    }
+
+    .check-row input {
+      width: auto;
+      margin: 0;
+    }
+
+    .approve {
+      display: flex;
+      gap: 9px;
+      align-items: flex-start;
+      margin: 12px 0 18px;
+      font-size: 14px;
+    }
+
+    .approve input {
+      width: auto;
+      margin-top: 4px;
+    }
+
+    button {
+      width: 100%;
+      border: none;
+      border-radius: 18px;
+      padding: 15px;
+      font-size: 18px;
+      font-weight: 800;
+      cursor: pointer;
+      background: #2b1d14;
+      color: white;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      background: #3a281d;
+    }
+
+    .success {
+      display: none;
+      text-align: center;
+      padding: 30px 10px;
+    }
+
+    .success h2 {
+      font-size: 32px;
+      margin-bottom: 10px;
+      color: #2b1d14;
+    }
+
+    .error {
+      display: none;
+      color: #b00020;
+      text-align: center;
+      margin-top: 12px;
+      font-weight: 600;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="card">
+    <img src="logo.png" class="logo" alt="קפה דאדא">
+
+    <div id="formWrap">
+      <h1>קפה טוב מתחיל בפרטים טובים</h1>
+      <div class="subtitle">השאירו פרטים ונחזור אליכם עם פתרון קפה מותאם לעסק שלכם.</div>
+
+      <form id="leadForm">
+        <div class="section-title">פרטי איש קשר</div>
+
+        <label>שם מלא *</label>
+        <input name="fullName" required>
+
+        <label>חברה *</label>
+        <input name="company" required>
+
+        <label>תפקיד *</label>
+        <input name="position" required>
+
+        <label>טלפון *</label>
+        <input name="phone" type="tel" required>
+
+        <label>אימייל *</label>
+        <input name="email" type="email" required>
+
+        <div class="section-title">פרטי העסק</div>
+
+        <label>מיקום המשרדים *</label>
+        <input name="officeLocation" required>
+
+        <label>מספר עובדים *</label>
+        <input name="employees" type="number" required>
+
+        <div class="section-title">מצב קיים</div>
+
+        <label>צריכת קפה חודשית בק״ג</label>
+        <input name="monthlyConsumption" type="number">
+
+        <label>מספר מכונות קיימות</label>
+        <input name="existingMachines" type="number">
+
+        <label>סוג הקפה הקיים</label>
+        <select name="coffeeType">
+          <option value="">בחרו</option>
+          <option>פולים</option>
+          <option>קפסולות</option>
+          <option>קפה טחון</option>
+          <option>לא יודע</option>
+          <option>אחר</option>
+        </select>
+
+        <label>ספק קפה נוכחי</label>
+        <input name="currentSupplier">
+
+        <div class="section-title">מה מעניין אתכם?</div>
+
+        <div class="checkboxes">
+          <label class="check-row"><input type="checkbox" name="interests" value="מכונות אוטומטיות"> מכונות אוטומטיות</label>
+          <label class="check-row"><input type="checkbox" name="interests" value="מכונות בריסטה ידניות"> מכונות בריסטה ידניות</label>
+          <label class="check-row"><input type="checkbox" name="interests" value="פולי קפה"> פולי קפה</label>
+          <label class="check-row"><input type="checkbox" name="interests" value="פתרון מלא למשרד"> פתרון מלא למשרד</label>
+          <label class="check-row"><input type="checkbox" name="interests" value="שיתוף פעולה עסקי"> שיתוף פעולה עסקי</label>
+          <label class="check-row"><input type="checkbox" name="interests" value="אחר"> אחר</label>
+        </div>
+
+        <label>הערות</label>
+        <textarea name="notes"></textarea>
+
+        <label class="approve">
+          <input type="checkbox" name="approve" required>
+          אני מאשר/ת יצירת קשר
+        </label>
+
+        <button type="submit">שלחו פרטים</button>
+        <div class="error" id="errorMsg">אירעה תקלה בשליחה. נסו שוב.</div>
+      </form>
+    </div>
+
+    <div class="success" id="successMsg">
+      <h2>תודה!</h2>
+      <p>קיבלנו את הפרטים וניצור קשר בהקדם.</p>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getDatabase, ref, push, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBJAmx902CLNFriHxKql8gGzCdYH6ZFVis",
+      authDomain: "suppliers-leads.firebaseapp.com",
+      databaseURL: "https://suppliers-leads-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "suppliers-leads",
+      storageBucket: "suppliers-leads.firebasestorage.app",
+      messagingSenderId: "723769615013",
+      appId: "1:723769615013:web:a1591e720b509c379de34c"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    const form = document.getElementById("leadForm");
+    const formWrap = document.getElementById("formWrap");
+    const successMsg = document.getElementById("successMsg");
+    const errorMsg = document.getElementById("errorMsg");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      errorMsg.style.display = "none";
+
+      const formData = new FormData(form);
+
+      const interests = [];
+      form.querySelectorAll('input[name="interests"]:checked').forEach(item => {
+        interests.push(item.value);
+      });
+
+      const lead = {
+        fullName: formData.get("fullName") || "",
+        company: formData.get("company") || "",
+        position: formData.get("position") || "",
+        phone: formData.get("phone") || "",
+        email: formData.get("email") || "",
+        officeLocation: formData.get("officeLocation") || "",
+        employees: formData.get("employees") || "",
+        monthlyConsumption: formData.get("monthlyConsumption") || "",
+        existingMachines: formData.get("existingMachines") || "",
+        coffeeType: formData.get("coffeeType") || "",
+        currentSupplier: formData.get("currentSupplier") || "",
+        interests,
+        notes: formData.get("notes") || "",
+        status: "חדש",
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp()
+      };
+
+      try {
+        await push(ref(db, "supplierLeads"), lead);
+        formWrap.style.display = "none";
+        successMsg.style.display = "block";
+      } catch (err) {
+        console.error(err);
+        errorMsg.style.display = "block";
+      }
+    });
+  </script>
+</body>
+</html>
