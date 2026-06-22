@@ -35,7 +35,7 @@
 
     .logo {
       display: block;
-      max-width: 150px;
+      max-width: 220px;
       margin: 0 auto 18px;
     }
 
@@ -118,13 +118,13 @@
     }
 
     .success h2 {
-      font-size: 32px;
-      margin-bottom: 10px;
+      font-size: 38px;
+      margin: 20px 0 10px;
       color: #2b1d14;
     }
 
     .success p {
-      font-size: 17px;
+      font-size: 18px;
       color: #6b5b4f;
       margin: 0;
     }
@@ -217,7 +217,6 @@
         phone: formData.get("phone") || "",
         officeLocation: formData.get("officeLocation") || "",
         employees: formData.get("employees") || "",
-
         status: "חדש",
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp()
