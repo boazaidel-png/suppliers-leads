@@ -4,36 +4,172 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>קפה דאדא | לוח לידים</title>
+
   <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+
   <style>
-    *{box-sizing:border-box;font-family:"Heebo",sans-serif}
-    body{margin:0;background:#f7f3ed;color:#231f20;padding:20px}
-    .top{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:20px}
-    .logo{height:58px}
-    h1{margin:0;color:#2b1d14}
-    .card{background:#fff;border-radius:22px;padding:20px;box-shadow:0 12px 35px rgba(0,0,0,.08);margin-bottom:18px}
-    input,select,textarea{border:1px solid #ddd2c7;border-radius:12px;padding:10px;font-size:14px;background:#fffdfb}
-    button{border:0;border-radius:12px;padding:10px 14px;font-weight:800;cursor:pointer;background:#2b1d14;color:#fff}
-    .login{max-width:420px;margin:80px auto}
-    .login input{width:100%;margin-bottom:10px}
-    .error{color:#b00020;font-weight:700;display:none;margin-top:10px}
-    .hidden{display:none}
-    .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px}
-    .stat{background:#fbf7f2;border:1px solid #eadfd4;border-radius:18px;padding:14px}
-    .stat strong{display:block;font-size:26px;color:#2b1d14}
-    .filters{display:flex;gap:10px;flex-wrap:wrap}
-    .filters input,.filters select{min-width:190px}
-    .table-wrap{overflow-x:auto}
-    table{width:100%;border-collapse:collapse;min-width:1200px}
-    th,td{border-bottom:1px solid #eee3d8;padding:10px;text-align:right;vertical-align:top;font-size:14px}
-    th{background:#fbf7f2;color:#2b1d14;position:sticky;top:0}
-    .actions{display:flex;gap:6px;flex-wrap:wrap}
-    .small{font-size:13px;padding:7px 10px;text-decoration:none;border-radius:10px;background:#2b1d14;color:white;display:inline-block}
-    .danger{background:#9b1c1c}
-    .status{min-width:150px}
-    .note{width:220px;min-height:50px}
+    * {
+      box-sizing: border-box;
+      font-family: "Heebo", sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background: #f7f3ed;
+      color: #231f20;
+      padding: 20px;
+    }
+
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .logo {
+      height: 70px;
+    }
+
+    h1 {
+      margin: 0;
+      color: #2b1d14;
+      font-size: 28px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 22px;
+      padding: 20px;
+      box-shadow: 0 12px 35px rgba(0,0,0,.08);
+      margin-bottom: 18px;
+    }
+
+    input, select, textarea {
+      border: 1px solid #ddd2c7;
+      border-radius: 12px;
+      padding: 10px;
+      font-size: 14px;
+      background: #fffdfb;
+    }
+
+    button {
+      border: 0;
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-weight: 800;
+      cursor: pointer;
+      background: #2b1d14;
+      color: #fff;
+    }
+
+    .login {
+      max-width: 420px;
+      margin: 80px auto;
+    }
+
+    .login input {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+
+    .error {
+      color: #b00020;
+      font-weight: 700;
+      display: none;
+      margin-top: 10px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+    }
+
+    .stat {
+      background: #fbf7f2;
+      border: 1px solid #eadfd4;
+      border-radius: 18px;
+      padding: 14px;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 26px;
+      color: #2b1d14;
+    }
+
+    .filters {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .filters input, .filters select {
+      min-width: 190px;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 1000px;
+    }
+
+    th, td {
+      border-bottom: 1px solid #eee3d8;
+      padding: 10px;
+      text-align: right;
+      vertical-align: top;
+      font-size: 14px;
+    }
+
+    th {
+      background: #fbf7f2;
+      color: #2b1d14;
+      position: sticky;
+      top: 0;
+    }
+
+    .actions {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .small {
+      font-size: 13px;
+      padding: 7px 10px;
+      text-decoration: none;
+      border-radius: 10px;
+      background: #2b1d14;
+      color: white;
+      display: inline-block;
+    }
+
+    .danger {
+      background: #9b1c1c;
+    }
+
+    .status {
+      min-width: 150px;
+    }
+
+    .note {
+      width: 220px;
+      min-height: 50px;
+    }
   </style>
 </head>
+
 <body>
 
   <div id="loginBox" class="card login">
@@ -58,7 +194,7 @@
     <div class="card stats" id="stats"></div>
 
     <div class="card filters">
-      <input id="searchInput" placeholder="חיפוש חברה / שם / טלפון / אימייל">
+      <input id="searchInput" placeholder="חיפוש חברה / שם / טלפון / מיקום">
       <select id="statusFilter">
         <option value="">כל הסטטוסים</option>
         <option>חדש</option>
@@ -68,14 +204,6 @@
         <option>נשלחה הצעה</option>
         <option>נסגר</option>
         <option>לא רלוונטי</option>
-      </select>
-      <select id="coffeeFilter">
-        <option value="">כל סוגי הקפה</option>
-        <option>פולים</option>
-        <option>קפסולות</option>
-        <option>קפה טחון</option>
-        <option>לא יודע</option>
-        <option>אחר</option>
       </select>
       <button id="exportBtn">ייצוא CSV</button>
     </div>
@@ -89,16 +217,10 @@
             <th>איש קשר</th>
             <th>תפקיד</th>
             <th>טלפון</th>
-            <th>אימייל</th>
             <th>מיקום</th>
-            <th>עובדים</th>
-            <th>צריכה חודשית</th>
-            <th>מכונות</th>
-            <th>סוג קפה</th>
-            <th>ספק נוכחי</th>
-            <th>תחומי עניין</th>
+            <th>מספר עובדים</th>
             <th>סטטוס</th>
-            <th>הערות</th>
+            <th>הערות פנימיות</th>
             <th>פעולות</th>
           </tr>
         </thead>
@@ -176,19 +298,18 @@
   function renderTable() {
     const q = document.getElementById("searchInput").value.trim().toLowerCase();
     const status = document.getElementById("statusFilter").value;
-    const coffee = document.getElementById("coffeeFilter").value;
 
     const filtered = allLeads.filter(l => {
-      const text = `${l.company||""} ${l.fullName||""} ${l.phone||""} ${l.email||""}`.toLowerCase();
+      const text = `${l.company||""} ${l.fullName||""} ${l.phone||""} ${l.officeLocation||""}`.toLowerCase();
       return (!q || text.includes(q)) &&
-             (!status || (l.status || "חדש") === status) &&
-             (!coffee || (l.coffeeType || "") === coffee);
+             (!status || (l.status || "חדש") === status);
     });
 
     leadsBody.innerHTML = filtered.map(l => {
       const phoneClean = String(l.phone || "").replace(/\D/g,"");
       const waPhone = phoneClean.startsWith("0") ? "972" + phoneClean.slice(1) : phoneClean;
       const date = l.createdAt ? new Date(l.createdAt).toLocaleString("he-IL") : "";
+
       return `
         <tr>
           <td>${date}</td>
@@ -196,14 +317,8 @@
           <td>${safe(l.fullName)}</td>
           <td>${safe(l.position)}</td>
           <td>${safe(l.phone)}</td>
-          <td>${safe(l.email)}</td>
           <td>${safe(l.officeLocation)}</td>
           <td>${safe(l.employees)}</td>
-          <td>${safe(l.monthlyConsumption)}</td>
-          <td>${safe(l.existingMachines)}</td>
-          <td>${safe(l.coffeeType)}</td>
-          <td>${safe(l.currentSupplier)}</td>
-          <td>${Array.isArray(l.interests) ? l.interests.map(safe).join(", ") : ""}</td>
           <td>
             <select class="status" onchange="window.updateLead('${l.id}', {status:this.value})">
               ${["חדש","בוצעה שיחה","נקבעה פגישה","בהמתנה להצעת מחיר","נשלחה הצעה","נסגר","לא רלוונטי"].map(s =>
@@ -248,15 +363,14 @@
       .replaceAll("'","&#039;");
   }
 
-  ["searchInput","statusFilter","coffeeFilter"].forEach(id => {
+  ["searchInput","statusFilter"].forEach(id => {
     document.getElementById(id).addEventListener("input", renderTable);
     document.getElementById(id).addEventListener("change", renderTable);
   });
 
   document.getElementById("exportBtn").onclick = () => {
     const rows = [[
-      "תאריך","חברה","איש קשר","תפקיד","טלפון","אימייל","מיקום","עובדים",
-      "צריכה חודשית","מכונות קיימות","סוג קפה","ספק נוכחי","תחומי עניין","סטטוס","הערות"
+      "תאריך","חברה","איש קשר","תפקיד","טלפון","מיקום","מספר עובדים","סטטוס","הערות פנימיות"
     ]];
 
     allLeads.forEach(l => {
@@ -266,16 +380,10 @@
         l.fullName || "",
         l.position || "",
         l.phone || "",
-        l.email || "",
         l.officeLocation || "",
         l.employees || "",
-        l.monthlyConsumption || "",
-        l.existingMachines || "",
-        l.coffeeType || "",
-        l.currentSupplier || "",
-        Array.isArray(l.interests) ? l.interests.join(", ") : "",
         l.status || "חדש",
-        l.adminNotes || l.notes || ""
+        l.adminNotes || ""
       ]);
     });
 
