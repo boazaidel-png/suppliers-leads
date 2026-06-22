@@ -162,10 +162,11 @@
         <label>טלפון *</label>
         <input name="phone" type="tel" required>
 
-        <div class="section-title">פרטי העסק</div>
-
         <label>מיקום המשרדים *</label>
         <input name="officeLocation" required>
+
+        <label>מספר עובדים *</label>
+        <input name="employees" type="number" required>
 
         <button id="submitBtn" type="submit">שלחו פרטים</button>
         <div class="error" id="errorMsg">אירעה תקלה בשליחה. נסו שוב.</div>
@@ -215,6 +216,7 @@
         position: formData.get("position") || "",
         phone: formData.get("phone") || "",
         officeLocation: formData.get("officeLocation") || "",
+        employees: formData.get("employees") || "",
 
         status: "חדש",
         createdAt: serverTimestamp(),
