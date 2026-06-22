@@ -1,1 +1,293 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>קפה דאדא | לוח לידים</title>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+  <style>
+    *{box-sizing:border-box;font-family:"Heebo",sans-serif}
+    body{margin:0;background:#f7f3ed;color:#231f20;padding:20px}
+    .top{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:20px}
+    .logo{height:58px}
+    h1{margin:0;color:#2b1d14}
+    .card{background:#fff;border-radius:22px;padding:20px;box-shadow:0 12px 35px rgba(0,0,0,.08);margin-bottom:18px}
+    input,select,textarea{border:1px solid #ddd2c7;border-radius:12px;padding:10px;font-size:14px;background:#fffdfb}
+    button{border:0;border-radius:12px;padding:10px 14px;font-weight:800;cursor:pointer;background:#2b1d14;color:#fff}
+    .login{max-width:420px;margin:80px auto}
+    .login input{width:100%;margin-bottom:10px}
+    .error{color:#b00020;font-weight:700;display:none;margin-top:10px}
+    .hidden{display:none}
+    .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px}
+    .stat{background:#fbf7f2;border:1px solid #eadfd4;border-radius:18px;padding:14px}
+    .stat strong{display:block;font-size:26px;color:#2b1d14}
+    .filters{display:flex;gap:10px;flex-wrap:wrap}
+    .filters input,.filters select{min-width:190px}
+    .table-wrap{overflow-x:auto}
+    table{width:100%;border-collapse:collapse;min-width:1200px}
+    th,td{border-bottom:1px solid #eee3d8;padding:10px;text-align:right;vertical-align:top;font-size:14px}
+    th{background:#fbf7f2;color:#2b1d14;position:sticky;top:0}
+    .actions{display:flex;gap:6px;flex-wrap:wrap}
+    .small{font-size:13px;padding:7px 10px;text-decoration:none;border-radius:10px;background:#2b1d14;color:white;display:inline-block}
+    .danger{background:#9b1c1c}
+    .status{min-width:150px}
+    .note{width:220px;min-height:50px}
+  </style>
+</head>
+<body>
 
+  <div id="loginBox" class="card login">
+    <img src="logo.png" class="logo" alt="קפה דאדא">
+    <h1>כניסה ללוח לידים</h1>
+    <br>
+    <input id="email" type="email" placeholder="אימייל">
+    <input id="password" type="password" placeholder="סיסמה">
+    <button id="loginBtn">כניסה</button>
+    <div id="loginError" class="error">פרטי התחברות לא תקינים</div>
+  </div>
+
+  <div id="dashboard" class="hidden">
+    <div class="top">
+      <div>
+        <img src="logo.png" class="logo" alt="קפה דאדא">
+        <h1>לוח לידים מכנס ספקים</h1>
+      </div>
+      <button id="logoutBtn">התנתקות</button>
+    </div>
+
+    <div class="card stats" id="stats"></div>
+
+    <div class="card filters">
+      <input id="searchInput" placeholder="חיפוש חברה / שם / טלפון / אימייל">
+      <select id="statusFilter">
+        <option value="">כל הסטטוסים</option>
+        <option>חדש</option>
+        <option>בוצעה שיחה</option>
+        <option>נקבעה פגישה</option>
+        <option>בהמתנה להצעת מחיר</option>
+        <option>נשלחה הצעה</option>
+        <option>נסגר</option>
+        <option>לא רלוונטי</option>
+      </select>
+      <select id="coffeeFilter">
+        <option value="">כל סוגי הקפה</option>
+        <option>פולים</option>
+        <option>קפסולות</option>
+        <option>קפה טחון</option>
+        <option>לא יודע</option>
+        <option>אחר</option>
+      </select>
+      <button id="exportBtn">ייצוא CSV</button>
+    </div>
+
+    <div class="card table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>תאריך</th>
+            <th>חברה</th>
+            <th>איש קשר</th>
+            <th>תפקיד</th>
+            <th>טלפון</th>
+            <th>אימייל</th>
+            <th>מיקום</th>
+            <th>עובדים</th>
+            <th>צריכה חודשית</th>
+            <th>מכונות</th>
+            <th>סוג קפה</th>
+            <th>ספק נוכחי</th>
+            <th>תחומי עניין</th>
+            <th>סטטוס</th>
+            <th>הערות</th>
+            <th>פעולות</th>
+          </tr>
+        </thead>
+        <tbody id="leadsBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+  import { getDatabase, ref, onValue, update, remove } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBJAmx902CLNFriHxKql8gGzCdYH6ZFVis",
+    authDomain: "suppliers-leads.firebaseapp.com",
+    databaseURL: "https://suppliers-leads-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "suppliers-leads",
+    storageBucket: "suppliers-leads.firebasestorage.app",
+    messagingSenderId: "723769615013",
+    appId: "1:723769615013:web:a1591e720b509c379de34c"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getDatabase(app);
+
+  const loginBox = document.getElementById("loginBox");
+  const dashboard = document.getElementById("dashboard");
+  const leadsBody = document.getElementById("leadsBody");
+  const statsBox = document.getElementById("stats");
+
+  let allLeads = [];
+
+  document.getElementById("loginBtn").onclick = async () => {
+    try {
+      document.getElementById("loginError").style.display = "none";
+      await signInWithEmailAndPassword(auth, email.value, password.value);
+    } catch {
+      document.getElementById("loginError").style.display = "block";
+    }
+  };
+
+  document.getElementById("logoutBtn").onclick = () => signOut(auth);
+
+  onAuthStateChanged(auth, user => {
+    if (user) {
+      loginBox.classList.add("hidden");
+      dashboard.classList.remove("hidden");
+      listenLeads();
+    } else {
+      dashboard.classList.add("hidden");
+      loginBox.classList.remove("hidden");
+    }
+  });
+
+  function listenLeads() {
+    onValue(ref(db, "supplierLeads"), snapshot => {
+      const data = snapshot.val() || {};
+      allLeads = Object.entries(data).map(([id, lead]) => ({ id, ...lead }));
+      allLeads.sort((a,b) => (b.createdAt || 0) - (a.createdAt || 0));
+      renderStats();
+      renderTable();
+    });
+  }
+
+  function renderStats() {
+    const statuses = ["חדש","בוצעה שיחה","נקבעה פגישה","בהמתנה להצעת מחיר","נשלחה הצעה","נסגר"];
+    statsBox.innerHTML = statuses.map(st => {
+      const count = allLeads.filter(l => (l.status || "חדש") === st).length;
+      return `<div class="stat"><span>${st}</span><strong>${count}</strong></div>`;
+    }).join("");
+  }
+
+  function renderTable() {
+    const q = document.getElementById("searchInput").value.trim().toLowerCase();
+    const status = document.getElementById("statusFilter").value;
+    const coffee = document.getElementById("coffeeFilter").value;
+
+    const filtered = allLeads.filter(l => {
+      const text = `${l.company||""} ${l.fullName||""} ${l.phone||""} ${l.email||""}`.toLowerCase();
+      return (!q || text.includes(q)) &&
+             (!status || (l.status || "חדש") === status) &&
+             (!coffee || (l.coffeeType || "") === coffee);
+    });
+
+    leadsBody.innerHTML = filtered.map(l => {
+      const phoneClean = String(l.phone || "").replace(/\D/g,"");
+      const waPhone = phoneClean.startsWith("0") ? "972" + phoneClean.slice(1) : phoneClean;
+      const date = l.createdAt ? new Date(l.createdAt).toLocaleString("he-IL") : "";
+      return `
+        <tr>
+          <td>${date}</td>
+          <td>${safe(l.company)}</td>
+          <td>${safe(l.fullName)}</td>
+          <td>${safe(l.position)}</td>
+          <td>${safe(l.phone)}</td>
+          <td>${safe(l.email)}</td>
+          <td>${safe(l.officeLocation)}</td>
+          <td>${safe(l.employees)}</td>
+          <td>${safe(l.monthlyConsumption)}</td>
+          <td>${safe(l.existingMachines)}</td>
+          <td>${safe(l.coffeeType)}</td>
+          <td>${safe(l.currentSupplier)}</td>
+          <td>${Array.isArray(l.interests) ? l.interests.map(safe).join(", ") : ""}</td>
+          <td>
+            <select class="status" onchange="window.updateLead('${l.id}', {status:this.value})">
+              ${["חדש","בוצעה שיחה","נקבעה פגישה","בהמתנה להצעת מחיר","נשלחה הצעה","נסגר","לא רלוונטי"].map(s =>
+                `<option ${s === (l.status || "חדש") ? "selected" : ""}>${s}</option>`
+              ).join("")}
+            </select>
+          </td>
+          <td>
+            <textarea class="note" onchange="window.updateLead('${l.id}', {adminNotes:this.value})">${safe(l.adminNotes || "")}</textarea>
+          </td>
+          <td>
+            <div class="actions">
+              <a class="small" href="tel:${safe(l.phone)}">טלפון</a>
+              <a class="small" target="_blank" href="https://wa.me/${waPhone}">וואטסאפ</a>
+              <button class="small danger" onclick="window.deleteLead('${l.id}')">מחיקה</button>
+            </div>
+          </td>
+        </tr>
+      `;
+    }).join("");
+  }
+
+  window.updateLead = async (id, fields) => {
+    await update(ref(db, "supplierLeads/" + id), {
+      ...fields,
+      updatedAt: Date.now()
+    });
+  };
+
+  window.deleteLead = async (id) => {
+    if (confirm("למחוק את הליד?")) {
+      await remove(ref(db, "supplierLeads/" + id));
+    }
+  };
+
+  function safe(value) {
+    return String(value ?? "")
+      .replaceAll("&","&amp;")
+      .replaceAll("<","&lt;")
+      .replaceAll(">","&gt;")
+      .replaceAll('"',"&quot;")
+      .replaceAll("'","&#039;");
+  }
+
+  ["searchInput","statusFilter","coffeeFilter"].forEach(id => {
+    document.getElementById(id).addEventListener("input", renderTable);
+    document.getElementById(id).addEventListener("change", renderTable);
+  });
+
+  document.getElementById("exportBtn").onclick = () => {
+    const rows = [[
+      "תאריך","חברה","איש קשר","תפקיד","טלפון","אימייל","מיקום","עובדים",
+      "צריכה חודשית","מכונות קיימות","סוג קפה","ספק נוכחי","תחומי עניין","סטטוס","הערות"
+    ]];
+
+    allLeads.forEach(l => {
+      rows.push([
+        l.createdAt ? new Date(l.createdAt).toLocaleString("he-IL") : "",
+        l.company || "",
+        l.fullName || "",
+        l.position || "",
+        l.phone || "",
+        l.email || "",
+        l.officeLocation || "",
+        l.employees || "",
+        l.monthlyConsumption || "",
+        l.existingMachines || "",
+        l.coffeeType || "",
+        l.currentSupplier || "",
+        Array.isArray(l.interests) ? l.interests.join(", ") : "",
+        l.status || "חדש",
+        l.adminNotes || l.notes || ""
+      ]);
+    });
+
+    const csv = rows.map(r => r.map(v => `"${String(v).replaceAll('"','""')}"`).join(",")).join("\n");
+    const blob = new Blob(["\uFEFF" + csv], {type:"text/csv;charset=utf-8;"});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "kafe-dada-supplier-leads.csv";
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+</script>
+</body>
+</html>
